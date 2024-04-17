@@ -18,12 +18,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'tasks',
     'users',
-    'rest_framework.authtoken',
+    # 'tasks',
+    # 'rest_framework.authtoken',
 ]
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 MIDDLEWARE = [
