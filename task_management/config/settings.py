@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django_filters',
     'users',
     'tasks',
+    'drf_spectacular',
 ]
 
 
@@ -99,5 +100,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }

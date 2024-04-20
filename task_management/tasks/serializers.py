@@ -1,7 +1,7 @@
-from rest_framework import serializers
 from django.utils import timezone
-from users.serializers import UserSerializer
+from rest_framework import serializers
 
+from users.serializers import UserSerializer
 from .models import Task
 
 
