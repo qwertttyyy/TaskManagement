@@ -38,7 +38,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         cache.delete('tasks')
 
     def perform_destroy(self, instance):
-        instance.save()
+        instance.delete()
         cache.delete('tasks')
 
     def perform_update(self, serializer):

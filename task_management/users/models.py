@@ -25,6 +25,11 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
+    """
+    Кастомная модель пользователя.
+    Поле email используется для авторизации, поле first_name - обязательное.
+    """
+
     username = None
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_("first name"), max_length=150)
