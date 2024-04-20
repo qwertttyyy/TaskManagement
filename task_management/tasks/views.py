@@ -13,7 +13,6 @@ from .serializers import TaskSerializer
 @extend_schema(tags=['Задачи'])
 @extend_schema_view(**task_schema)
 class TaskViewSet(viewsets.ModelViewSet):
-    # queryset = Task.objects.select_related('user')
     serializer_class = TaskSerializer
     permission_classes = (OwnerOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)

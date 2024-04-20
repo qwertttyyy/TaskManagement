@@ -17,7 +17,7 @@ services:
       - "6379:6379"
 
 
-  backend:
+  api:
     build: task_management/
     env_file: .env
     command: >
