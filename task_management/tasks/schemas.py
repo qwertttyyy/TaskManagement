@@ -112,7 +112,6 @@ task_schema = {
                 value={
                     "title": "Новая задача",
                     "description": "Описание новой задачи",
-                    "status": "new",
                 },
                 request_only=True,
             ),

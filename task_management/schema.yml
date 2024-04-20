@@ -225,7 +225,6 @@ paths:
                 value:
                   title: Новая задача
                   description: Описание новой задачи
-                  status: new
                 summary: Пример запроса на создание задачи
           application/x-www-form-urlencoded:
             schema:
@@ -546,6 +545,7 @@ components:
           writeOnly: true
       required:
       - email
+      - first_name
       - id
       - password
   securitySchemes:

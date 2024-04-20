@@ -11,6 +11,12 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:7.2
+    ports:
+      - "6379:6379"
+
+
   backend:
     build: task_management/
     env_file: .env
@@ -23,5 +29,6 @@ services:
       - static:/app/static
     depends_on:
       - db
+      - redis
     ports:
       - '80:8000'

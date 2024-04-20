@@ -38,4 +38,4 @@ class Task(models.Model):
         ordering = ('-created_date',)
 
     def __str__(self):
-        return f'Задача {self.title} пользователя {self.user.first_name}'
+        return f'Задача {self.title}'
