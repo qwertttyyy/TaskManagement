@@ -8,6 +8,12 @@ from .serializers import UserSerializer
 
 
 class UserRegistrationView(generics.CreateAPIView):
+    """
+    Вью для регистрации пользователей.
+    Создание нового пользователя.
+    Возвращает данные пользователя после успешной регистрации.
+    """
+
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 

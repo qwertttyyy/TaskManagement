@@ -13,6 +13,13 @@ from .serializers import TaskSerializer
 @extend_schema(tags=['Задачи'])
 @extend_schema_view(**task_schema)
 class TaskViewSet(viewsets.ModelViewSet):
+    """
+    Вьюсет для работы с задачами.
+    Создание, чтение, обновление и удаление задач.
+    Фильтрация задач по статусу и дате создания.
+    Кэширует список задач до момента их изменения.
+    """
+
     serializer_class = TaskSerializer
     permission_classes = (OwnerOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)

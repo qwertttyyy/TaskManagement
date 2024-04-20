@@ -6,6 +6,12 @@ from .models import Task
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для задач.
+    Включает поля:
+        название, описание, статус, автор, даты создания и обновления.
+    """
+
     status = serializers.ChoiceField(
         choices=Task.STATUS_CHOICES, required=False
     )
@@ -17,6 +23,11 @@ class TaskSerializer(serializers.ModelSerializer):
         read_only_fields = ('created_date', 'user')
 
     def update(self, task, validated_data):
+        """
+        Переопределение метода обновления с изменением даты
+        последнего обновления задачи.
+        """
+
         for attr, value in validated_data.items():
             setattr(task, attr, value)
         task.last_updated_date = timezone.now()

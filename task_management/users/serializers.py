@@ -6,6 +6,12 @@ from .models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для пользователей.
+    Включает поля: имя, адрес электронной почты и пароль.
+    Пароль передается в виде строки.
+    """
+
     password = serializers.CharField(write_only=True)
 
     class Meta:
