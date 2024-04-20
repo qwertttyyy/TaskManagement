@@ -1,0 +1,27 @@
+version: '3.3'
+
+volumes:
+  pg_data:
+  static:
+
+services:
+  db:
+    image: postgres:16.2
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    build: task_management/
+    env_file: .env
+    command: >
+      sh -c "python manage.py collectstatic --no-input &&
+             sleep 3 &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - static:/app/static
+    depends_on:
+      - db
+    ports:
+      - '80:8000'

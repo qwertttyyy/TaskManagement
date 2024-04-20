@@ -22,7 +22,7 @@ class Task(models.Model):
         auto_now_add=True, verbose_name='Дата создания'
     )
     last_updated_date = models.DateTimeField(
-        null=True, verbose_name='Дата последнего обновления'
+        default=None, null=True, verbose_name='Дата последнего обновления'
     )
     user = models.ForeignKey(
         CustomUser,
