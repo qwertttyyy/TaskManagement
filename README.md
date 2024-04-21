@@ -18,6 +18,8 @@
 ## Запуск приложения
 1. Для локального запуска приложения понадобится Docker.<br> Инструкцию по установке можно найти на официальном сайте:
 https://docs.docker.com/engine/install/
+
+
 2. Склонируйте репозиторий:
     ```bash
     git clone git@github.com:qwertttyyy/SimpleMessenger.git
