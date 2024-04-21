@@ -23,7 +23,7 @@ https://docs.docker.com/engine/install/
     git clone git@github.com:qwertttyyy/SimpleMessenger.git
     cd TaskManagement
     ```
-3. Создайте файл .env 
+3. Создайте файл .env на примере [.env.example](.env.example)
    ```dotenv
    # Django settings
    SECRET_KEY=secret_key
