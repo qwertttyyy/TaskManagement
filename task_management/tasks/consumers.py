@@ -3,9 +3,13 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
+GROUP_NAME = 'notifications'
+
+
 class NotificationConsumer(AsyncWebsocketConsumer):
+
     async def connect(self):
-        self.group_name = 'public'
+        self.group_name = GROUP_NAME
         await self.channel_layer.group_add(self.group_name, self.channel_name)
         await self.accept()
 
