@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
 from users.models import CustomUser
@@ -16,19 +19,28 @@ class TaskTestCase(APITestCase):
         self.other_user_data = {
             'first_name': 'Petr',
             'email': 'petr@example.com',
-            'password': 'petr1970',
+            'password': 'petr1980',
         }
         self.user = CustomUser.objects.create_user(**self.user_data)
         self.other_user = CustomUser.objects.create_user(
             **self.other_user_data
         )
         self.client.force_authenticate(user=self.user)
+
         self.task_data = {
             'title': 'Test Task',
             'description': 'Test Task Description',
-            'status': 'new',
+        }
+        self.other_task_data = {
+            'title': ' Second Test Task',
+            'description': 'Other Test Task Description',
+            'status': 'in_progress',
         }
         self.task = Task.objects.create(user=self.user, **self.task_data)
+        self.other_task = Task.objects.create(
+            user=self.user, **self.other_task_data
+        )
+
         self.task_list_url = reverse('task-list')
         self.task_detail_url = reverse(
             'task-detail', kwargs={'pk': self.task.pk}
@@ -47,7 +59,7 @@ class TaskTestCase(APITestCase):
         self.assertEqual(
             response.data['description'], task_data['description']
         )
-        self.assertEqual(response.data['status'], task_data['status'])
+        self.assertEqual(response.data['status'], 'new')
 
     def test_create_task(self):
         """
@@ -75,7 +87,7 @@ class TaskTestCase(APITestCase):
         """
         response = self.client.get(self.task_list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 2)
 
     def test_update_task(self):
         """
@@ -114,9 +126,38 @@ class TaskTestCase(APITestCase):
         other_users_task = Task.objects.create(
             user=self.other_user, **self.task_data
         )
-        new_data = {'title': 'New Test Task'}
+        new_data = {'status': 'in_progress'}
         response = self.client.patch(
             reverse('task-detail', kwargs={'pk': other_users_task.pk}),
             data=new_data,
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_filter_by_date(self):
+        """
+        Тест на фильтрацию по дате.
+        Ожидаемый результат: Каждая задача в ответе имеет переданную дату.
+        """
+
+        self.other_task.created_date -= timedelta(days=1)
+        self.other_task.save()
+        now_date = f'{timezone.now():%Y-%m-%d}'
+        response = self.client.get(
+            self.task_list_url, {'created_date': now_date}
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        for task in response.data:
+            with self.subTest(task=task):
+                self.assertIn(now_date, task['created_date'])
+
+    def test_filter_by_status(self):
+        """
+        Тест на фильтрацию по статусу.
+        Ожидаемый результат: Каждая задача в ответе имеет переданный статус.
+        """
+
+        response = self.client.get(self.task_list_url, {'status': 'new'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        for task in response.data:
+            with self.subTest(task=task):
+                self.assertEqual(task['status'], 'new')
