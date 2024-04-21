@@ -452,6 +452,10 @@ components:
       - username
     PatchedTask:
       type: object
+      description: |-
+        Сериализатор для задач.
+        Включает поля:
+            название, описание, статус, автор, даты создания и обновления.
       properties:
         id:
           type: integer
@@ -492,6 +496,10 @@ components:
         * `done` - Выполнена
     Task:
       type: object
+      description: |-
+        Сериализатор для задач.
+        Включает поля:
+            название, описание, статус, автор, даты создания и обновления.
       properties:
         id:
           type: integer
@@ -528,6 +536,10 @@ components:
       - user
     User:
       type: object
+      description: |-
+        Сериализатор для пользователей.
+        Включает поля: имя, адрес электронной почты и пароль.
+        Пароль передается в виде строки.
       properties:
         id:
           type: integer

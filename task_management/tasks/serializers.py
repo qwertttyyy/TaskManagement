@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from users.serializers import UserSerializer
 from .models import Task
+from .utils import send_task_status_change_notification
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -29,6 +30,8 @@ class TaskSerializer(serializers.ModelSerializer):
         """
 
         for attr, value in validated_data.items():
+            if attr == 'status' and task.status != value:
+                send_task_status_change_notification(task, value)
             setattr(task, attr, value)
         task.last_updated_date = timezone.now()
         task.save()
