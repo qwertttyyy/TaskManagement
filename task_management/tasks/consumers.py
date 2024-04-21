@@ -7,6 +7,11 @@ GROUP_NAME = 'notifications'
 
 
 class NotificationConsumer(AsyncWebsocketConsumer):
+    """
+    Класс для обработки веб-сокет соединений и отправки уведомлений.
+    Подключается к группе при подключении и отключается при отключении.
+    Отправляет уведомления, полученные от группы, клиенту.
+    """
 
     async def connect(self):
         self.group_name = GROUP_NAME

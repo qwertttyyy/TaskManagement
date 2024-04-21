@@ -21,7 +21,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = '__all__'
-        read_only_fields = ('created_date', 'user')
+        read_only_fields = ('created_date',)
 
     def update(self, task, validated_data):
         """

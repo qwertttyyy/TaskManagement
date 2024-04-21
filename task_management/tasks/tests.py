@@ -83,7 +83,7 @@ class TaskTestCase(APITestCase):
         """
         Тест получения списка задач.
         Ожидаемый результат: получение списка задач с кодом 200 OK и проверка,
-        что в списке есть одна задача.
+        что в списке ожидаемое количество задач.
         """
         response = self.client.get(self.task_list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
