@@ -55,7 +55,7 @@ class TaskTestCase(APITestCase):
         self.client_user_1 = APIClient()
         self.client_user_1.force_authenticate(user=self.user_1)
 
-    def check_task_response(self, response, task_data):
+    def check_task_response(self, response, task_data, user):
         """Функция для проверки ответа на операции с задачами.
         Проверяем, что статус код ответа равен 200 OK или 201 CREATED.
         Проверяем, что в ответе есть поля 'title', 'description', 'status'
@@ -69,6 +69,13 @@ class TaskTestCase(APITestCase):
             response.data['description'], task_data['description']
         )
         self.assertEqual(response.data['status'], 'new')
+        self.assertEqual(
+            response.data['user'],
+            model_to_dict(
+                self.user_1,
+                fields=['id', 'email', 'first_name'],
+            ),
+        )
 
     def test_create_task(self):
         """
@@ -80,7 +87,7 @@ class TaskTestCase(APITestCase):
         response = self.client_user_1.post(
             self.task_list_url, data=self.user_1_task_data
         )
-        self.check_task_response(response, self.user_1_task_data)
+        self.check_task_response(response, self.user_1_task_data, self.user_1)
 
     def test_get_task_detail(self):
         """
@@ -90,7 +97,7 @@ class TaskTestCase(APITestCase):
         """
 
         response = self.client.get(self.task_user_1_detail_url)
-        self.check_task_response(response, self.user_1_task_data)
+        self.check_task_response(response, self.user_1_task_data, self.user_1)
 
     def test_get_task_list(self):
         """

@@ -56,7 +56,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         instance.delete()
         cache.clear()
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(60 * 60))
     @action(
         detail=False,
         methods=['get'],
