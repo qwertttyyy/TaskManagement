@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
@@ -31,7 +32,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     filterset_class = TaskFilter
     http_method_names = ['get', 'post', 'patch', 'delete']
 
-    @method_decorator(cache_page(15))
+    @method_decorator(cache_page(60 * 60))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -42,6 +43,18 @@ class TaskViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        cache.clear()
+
+    def perform_update(self, serializer):
+        serializer.save()
+        cache.clear()
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        cache.clear()
 
     @method_decorator(cache_page(15))
     @action(
