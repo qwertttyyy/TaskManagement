@@ -2,6 +2,7 @@ from drf_spectacular.utils import (
     OpenApiParameter,
     extend_schema,
     OpenApiExample,
+    OpenApiResponse,
 )
 
 
@@ -74,6 +75,45 @@ task_schema = {
                         request_only=True,
                     ),
                 ],
+            ),
+        ],
+    ),
+    'current_user_tasks': extend_schema(
+        summary='Получение списка задач текущего пользователя',
+        description='Возвращает список задач пользователя, '
+        'который сделал запрос.',
+        examples=[
+            OpenApiExample(
+                'Пример списка задач текущего пользователя',
+                value=[
+                    {
+                        "id": 1,
+                        "title": "Задача 1",
+                        "description": "Описание задачи 1",
+                        "status": "new",
+                        "created_date": "2023-01-01T00:00:00Z",
+                        "last_updated_date": "2023-01-01T00:00:00Z",
+                        "user": {
+                            "id": 1,
+                            "first_name": "Иван",
+                            "email": "ivan@example.com",
+                        },
+                    },
+                    {
+                        "id": 2,
+                        "title": "Задача 2",
+                        "description": "Описание задачи 2",
+                        "status": "in_progress",
+                        "created_date": "2023-01-02T00:00:00Z",
+                        "last_updated_date": "2023-01-02T00:00:00Z",
+                        "user": {
+                            "id": 1,
+                            "first_name": "Иван",
+                            "email": "ivan@example.com",
+                        },
+                    },
+                ],
+                response_only=True,
             ),
         ],
     ),
