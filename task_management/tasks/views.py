@@ -2,6 +2,9 @@ from django.core.cache import cache
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .filters import TaskFilter
 from .models import Task
@@ -44,3 +47,17 @@ class TaskViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save()
         cache.delete('tasks')
+
+    @action(
+        detail=False,
+        methods=['get'],
+        permission_classes=(IsAuthenticated,),
+        url_path='my-tasks',
+        url_name='my-tasks',
+    )
+    def current_user_tasks(self, request):
+        user_tasks = [
+            task for task in self.get_queryset() if task.user == request.user
+        ]
+        serializer = self.get_serializer(user_tasks, many=True)
+        return Response(serializer.data)
