@@ -30,7 +30,7 @@ https://docs.docker.com/engine/install/
    # Django settings
    SECRET_KEY=secret_key
    DEBUG=True
-   ALLOWED_HOSTS='localhost'
+   ALLOWED_HOSTS='localhost 127.0.0.1'
    
    # PostgreSQL settings
    POSTGRES_USER=admin
