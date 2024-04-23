@@ -22,7 +22,7 @@ https://docs.docker.com/engine/install/
 
 2. Склонируйте репозиторий:
     ```bash
-    git@github.com:qwertttyyy/TaskManagement.git
+    git clone git@github.com:qwertttyyy/TaskManagement.git
     cd TaskManagement
     ```
 3. Создайте файл .env на примере [.env.example](.env.example)
